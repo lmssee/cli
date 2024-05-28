@@ -3,6 +3,7 @@ import createReadMe from "src/tools/createReadMe";
 import createProject from "./createProject";
 import createStatic from "./createStatic";
 import { runOtherCode, writeJsonFile, getCallerFilename, initializeFile, pathJoin } from "@lmssee/node-tools";
+import { Color } from "lmcmd";
 
 const [__filename, __dirname] = initializeFile();
 
@@ -20,7 +21,11 @@ export default async (projectName: string) => {
     createProject(projectName);
     // 新增项目的测试文件
     createStatic(projectName);
-    await runOtherCode({ code: 'npx lmssee -c vue test-button', cwd: `./${projectName}` })
+    await runOtherCode({ code: 'npx lmssee -c vue test-button', cwd: `./${projectName}` });
+    console.log(Color.cyan("构建完毕，您可以使用以下命令进行下一步操作："));
+    console.log(Color.darkMagenta(`cd ${projectName}`));
+    console.log(Color.darkGreen('npm install'));
+    console.log('启动测试服务  '.concat(Color.green('npm run dev')));
 }
 
 // 添加 vue 的项目目录文件及静态文件的文件夹
