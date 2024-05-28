@@ -1,0 +1,64 @@
+{
+  "name": "lmssee",
+  "version": "0.0.12",
+  "description": "a simple  cli for do something",
+  "type": "module",
+  "main": "out/index.cjs",
+  "module": "out/index.mjs",
+  "typings": "types/index.d.ts",
+  "scripts": {
+    "dev": "npx  lmhot",
+    "build": "npm run clear && rollup --config  rollup.config.js    && tsc -p  tsconfig.types.json",
+    "clear": "rm -rf  out  types",
+    "clean": "npm run  upDe && rm -rf out  types node_modules  package-lock.json && npm install  && npm run build",
+    "up": "npm run update",
+    "update": "npm run  clean  &&  npm version  patch && npm publish",
+    "upDe": "npm install @lmssee/tools@latest  @lmssee/node-tools@latest lmcmd@latest  && npm  update --save"
+  },
+  "files": [
+    "out",
+    "types",
+    "bin",
+    "public"
+  ],
+  "author": "lmssee <lmssee@outlook.com>  (https://lmssee.com)",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lmssee/cli.git"
+  },
+  "keywords": [
+    "lmssee",
+    "lmssee-tools"
+  ],
+  "homepage": "https://lmssee.github.io/cli",
+  "bugs": {
+    "url": "https://github.com/lmssee/cli/issues",
+    "email": "lmssee@outlook.com"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.8",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@types/node": "^20.12.12",
+    "rollup-plugin-cleanup": "^3.2.1",
+    "rollup-plugin-copy": "^3.5.0",
+    "tslib": "^2.6.2",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "@lmssee/node-tools": "^0.0.11",
+    "@lmssee/tools": "^0.0.14",
+    "lmcmd": "^0.0.24"
+  },
+  "bin": {
+    "lm": "./bin/lmssee.js",
+    "lmssee": "./bin/lmssee.js"
+  }
+}
