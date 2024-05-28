@@ -1,6 +1,6 @@
 {
   "name": "lmssee",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "a simple  cli for do something",
   "type": "module",
   "main": "out/index.cjs",
