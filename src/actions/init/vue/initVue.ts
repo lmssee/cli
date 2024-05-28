@@ -15,7 +15,6 @@ export default async (projectName: string) => {
     createPackage(projectName);
     createDir(projectName);
     const nowDir = getCallerFilename(__filename);
-    mkdirSync(`./${projectName}/static/public`);
     copyFileSync(pathJoin(nowDir, "../../../assets/temporary.ico").replace(/(.*:)/, ""), `./${projectName}/static/public/temporary.ico`)
     // 增加项目的文件
     createProject(projectName);
@@ -37,6 +36,7 @@ function createDir(projectName: string) {
     const staticDir = `${projectName}/static`;
     mkdirSync(staticDir);
     mkdirSync(staticDir + '/src');
+    mkdirSync(staticDir + `/public`);
 }
 
 

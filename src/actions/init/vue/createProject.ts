@@ -101,7 +101,7 @@ function createPackage(projectName: string) {
         "description": "",
         "main": "out/index.cjs",
         "module": "out/index.mjs",
-        "typings": "out/index.d.ts",
+        "typings": "types/index.d.ts",
         "scripts": {
             "build": "npm run clear  && vite build  && npm run management  && tsc -p  tsconfig.json",
             "clear": "rm -rf  out && rm  -rf  types",
@@ -110,7 +110,8 @@ function createPackage(projectName: string) {
             "clean": "npm run  removeDependent   &&  npm  install && npm run clear && npm  run  build"
         },
         "files": [
-            "out"
+            "out",
+            "types"
         ],
         "repository": {
             "type": "git",
