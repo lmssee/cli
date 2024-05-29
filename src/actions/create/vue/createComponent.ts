@@ -11,7 +11,7 @@ import dirIsExist from "src/tools/dirIsExist";
 export default async (data: any) => {
     let targetDir;
 
-    // 判断是否是完善的
+    // 判断是否是完善的路径
     const workDir = basename(process.cwd()),
         libraryDir = fileExist('library'),
         srcDir = fileExist('library/src'),
@@ -42,10 +42,11 @@ export default async (data: any) => {
 async function createNewVueComponent() {
     /** 新增组件名称 */
     const { targetName, targetDir, className } = createData;
-    const isCover = await dirIsExist(targetDir);
+    mkdirSync(targetDir);
+    /** 写入样式 */
     writeFileSync(`${targetDir}/${targetName}.scss`, `.${className}_class {
     position: relative;
-    border-radius: 100px;
+    border-radius: 24px 8px;
     width: 100px;
     display: inline-block;
     position: relative;
@@ -53,33 +54,40 @@ async function createNewVueComponent() {
     background-color: #000;
     top: 0;
     left: 0;
+    transition: all 1s;
+
+    &:hover {
+        transition: all 1s;
+        border-radius: 8px 24px;
+        color: #000;
+        background-color: #fff;
+    }
 }`);
 
     // 写入组件的 jsx 文件
     writeFileSync(`${targetDir}/${targetName}.tsx`, `import  {defineComponent} from 'vue';
+import { App } from "vue";
 import './${targetName}.scss';
-    
-export default  defineComponent({
+ 
+/**  组件 ${targetName} 内容部分   */
+const ${targetName}  =  defineComponent({
     name:"${targetName}",
     setup(props, ctx) {
         return ()=> ( <button className={'${className}_class'}>测试</button>);
     }
-});`);
+});
 
-    // 写入跟文件 
-    writeFileSync(`${targetDir}/index.ts`, `import { App } from "vue";
-import ${targetName} from "./${targetName}";
-    
 ${targetName}.install = function (app: App) {
-     app.component(${targetName}.name as string, ${targetName});
+    app.component(${targetName}.name as string, ${targetName});
     return app;
-}
- export default ${targetName};`);
-
+  };
+  
+export { ${targetName} };
+`);
 
     /// 添加 ts 导出到 index.ts
     const indexFileName = `library/src/index.ts`;
-    const appendExportStr = `export { default as ${targetName} } from "./${targetName}/index";`
+    const appendExportStr = `export {  ${targetName} } from "./${targetName}/${targetName}";`
     if (readFileSync(indexFileName).toString().indexOf(appendExportStr) == -1)
         appendFileSync(indexFileName, '\n'.concat(appendExportStr));
 }

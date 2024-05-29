@@ -80,11 +80,11 @@ function createTsconfig(projectName: string) {
             "sourceMap": false
         },
         "include": [
-            `${projectName}/index.ts`,
+            `library/index.ts`,
             "./**/**/src/**/*.ts",
             "**.d.ts",
             "./**/**/tools/**/*.ts",
-            `${projectName}/shims-vue.d.ts`
+            // `${projectName}/shims-vue.d.ts`
         ],
         "exclude": ["node_modules"]
     }

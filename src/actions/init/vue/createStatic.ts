@@ -64,7 +64,7 @@ function createIndexHtml() {
   <html lang="zh-cn">
     <head>
       <meta charset="UTF-8" />
-      <link rel="shortcut icon" type="image/x-icon"  href="./public/temporary.ico" />
+      <link rel="shortcut icon" type="image/x-icon"  href="./temporary.ico" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>${name} 功能测试</title>
     </head>
