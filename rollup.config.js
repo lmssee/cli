@@ -32,7 +32,7 @@ export default {
     resolve(),
     commonjs(),
     // 打包压缩，自动去注释
-    terser(),
+    // terser(),
     // 可打包 json 内容
     json(),
     typescript({}),

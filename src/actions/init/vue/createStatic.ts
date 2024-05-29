@@ -1,26 +1,35 @@
 import { writeJsonFile } from "@lmssee/node-tools";
 import { copyFileSync, writeFileSync } from "node:fs"
+import initData from "../initData";
+// 项目名称
+let name: string;
+// 静态测试文件名称
+let staticDir: string;
 
-export default (projectName: string) => {
-    createTsconfig(projectName);
+export default () => {
+    name = initData.name;
+    staticDir = `${name}/static`;
 
-    createViteConfig(projectName);
+    createTsconfig();
 
-    createPackage(projectName);
+    createViteConfig();
 
-    createIndexHtml(projectName);
+    createPackage();
 
-    copyFileSync(`${projectName}/CHANGELOG.md`, `${projectName}/static/CHANGELOG.md`);
+    createIndexHtml();
 
+    /** 将日志记录放在这里 */
+    copyFileSync(`${name}/CHANGELOG.md`, `${staticDir}/CHANGELOG.md`);
 
-    createStaticMainTs(projectName);
+    createStaticMainTs();
 
-    createAppTsx(projectName);
+    createAppTsx();
 }
 
 
-function createViteConfig(projectName: string) {
-    writeFileSync(`${projectName}/static/vite.config.ts`, `import { defineConfig } from "vite";
+/**  生成 vite config 文件  */
+function createViteConfig() {
+    writeFileSync(`${staticDir}/vite.config.ts`, `import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import vueJsx from '@vitejs/plugin-vue-jsx';
 export default defineConfig({
@@ -31,8 +40,9 @@ export default defineConfig({
 });`)
 }
 
-function createPackage(projectName: string) {
-    writeFileSync(`${projectName}/static/package.json`, `{
+/**  生成一个 package.json 文件 */
+function createPackage() {
+    writeFileSync(`${staticDir}/package.json`, `{
 "name": "static",
 "version": "0.0.1",
 "main": "index.js",
@@ -43,20 +53,20 @@ function createPackage(projectName: string) {
 "license": "ISC",
 "dependencies": {
     "@lmssee/tools": "0.0.12",
-    "${projectName}":  "../${projectName}"
+    "${name}":  "../library"
     }
-}`
-    )
+}`)
 }
 
-function createIndexHtml(projectName: string) {
-    writeFileSync(`${projectName}/static/index.html`, `<!DOCTYPE html>
+/** 生成根 html */
+function createIndexHtml() {
+    writeFileSync(`${staticDir}/index.html`, `<!DOCTYPE html>
   <html lang="zh-cn">
     <head>
       <meta charset="UTF-8" />
       <link rel="shortcut icon" type="image/x-icon"  href="./public/temporary.ico" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>功能测试</title>
+      <title>${name} 功能测试</title>
     </head>
     <body>
       <div id="app">一定是特别的缘分</div>
@@ -66,8 +76,9 @@ function createIndexHtml(projectName: string) {
   `);
 }
 
-function createTsconfig(projectName: string) {
-    writeFileSync(`${projectName}/static/tsconfig.json`, `{
+/** 生成 ts config 文件 */
+function createTsconfig() {
+    writeFileSync(`${staticDir}/tsconfig.json`, `{
 "compilerOptions": {
     "baseUrl": ".",
     "jsx": "preserve",
@@ -92,9 +103,10 @@ function createTsconfig(projectName: string) {
 }`)
 }
 
-function createAppTsx(projectName: string) {
-    writeFileSync(`${projectName}/static/app.tsx`, `import {defineComponent} from 'vue';
-import { TestButton } from '../${projectName}';
+/** 生成一个 app.tsx 入口文件 */
+function createAppTsx() {
+    writeFileSync(`${staticDir}/app.tsx`, `import {defineComponent} from 'vue';
+import { TestButton } from '${name}';
 
 export default defineComponent({
     name:"app",
@@ -105,8 +117,9 @@ export default defineComponent({
     }
 })`);
 }
-function createStaticMainTs(projectName: string) {
-    writeFileSync(`${projectName}/static/main.ts`, `import { createApp } from "vue";
+/** 生成 vue 主逻辑文件 */
+function createStaticMainTs() {
+    writeFileSync(`${staticDir}/main.ts`, `import { createApp } from "vue";
 import App from "./app";
 const app = createApp(App);
 

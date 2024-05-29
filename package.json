@@ -55,7 +55,7 @@
   "dependencies": {
     "@lmssee/node-tools": "^0.0.11",
     "@lmssee/tools": "^0.0.14",
-    "lmcmd": "^0.0.24"
+    "lmcmd": "^0.0.25"
   },
   "bin": {
     "lm": "./bin/lmssee.js",

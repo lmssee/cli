@@ -1,23 +1,34 @@
 import { writeJsonFile } from "@lmssee/node-tools";
-import { copyFileSync, cpSync, writeFileSync } from "node:fs";
+import { copyFileSync, writeFileSync } from "node:fs";
+import initData from "../initData";
 
-export default (projectName: string) => {
+/** 组件库名称 */
+let name: string;
+
+/** 组件库表目录 */
+let library: string;
+
+/** 添加组件库表  */
+export default () => {
+    name = initData.name;
+    library = `${name}/library`;
+
     // vite config  
-    createViteConfig(projectName);
+    createViteConfig();
     // ts config file 文件
-    createTsconfig(projectName);
-    copyFileSync(`${projectName}/LICENSE.md`, `${projectName}/${projectName}/LICENSE.md`);
-    copyFileSync(`${projectName}/ReadMe.md`, `${projectName}/${projectName}/ReadMe.md`);
-    copyFileSync(`${projectName}/CHANGELOG.md`, `${projectName}/${projectName}/CHANGELOG.md`);
-    createPackage(projectName);
+    createTsconfig();
+    copyFileSync(`${name}/LICENSE.md`, `${library}/LICENSE.md`);
+    copyFileSync(`${name}/ReadMe.md`, `${library}/ReadMe.md`);
+    copyFileSync(`${name}/CHANGELOG.md`, `${library}/CHANGELOG.md`);
+    createPackage();
     // 新增 index.ts
-    createIndex(projectName);
-    createBuildSh(projectName);
-    writeFileSync(`${projectName}/${projectName}/src/index.ts`, "");
+    createIndex();
+    createBuildSh();
+    writeFileSync(`${library}/src/index.ts`, "");
 }
 
-function createViteConfig(projectName: string) {
-    writeFileSync(`${projectName}/${projectName}/vite.config.ts`, `import { defineConfig } from "vite";
+function createViteConfig() {
+    writeFileSync(`${library}/vite.config.ts`, `import { defineConfig } from "vite";
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import terser from "@rollup/plugin-terser";
@@ -51,7 +62,7 @@ export default defineConfig({
         },
         lib: {
             entry: "./index.ts",
-            name: "${projectName}"
+            name: "${name}"
         }
     },
     plugins: [
@@ -62,8 +73,9 @@ export default defineConfig({
 }
 
 
-function createTsconfig(projectName: string) {
-    writeFileSync(`${projectName}/${projectName}/tsconfig.json`, `{
+/** 创建 ts config 文件 */
+function createTsconfig() {
+    writeFileSync(`${library}/tsconfig.json`, `{
     "compilerOptions": {
         // 打包类型声明
         "emitDeclarationOnly": true,
@@ -90,9 +102,10 @@ function createTsconfig(projectName: string) {
     }`)
 }
 
-function createPackage(projectName: string) {
-    writeJsonFile(`${projectName}/${projectName}/package.json`, {
-        "name": projectName,
+/** 添加 package.json 文件 */
+function createPackage() {
+    writeJsonFile(`${library}/package.json`, {
+        "name": name,
         "version": "0.0.1",
         "type": "module",
         "private": "true",
@@ -118,7 +131,7 @@ function createPackage(projectName: string) {
             "url": "git+https://github.com/..."
         },
         "keywords": [
-            projectName
+            name
         ],
         "homepage": "https://....github.io/",
         "bugs": {
@@ -130,7 +143,7 @@ function createPackage(projectName: string) {
             "registry": "https://registry.npmjs.org/"
         },
         "dependencies": {
-            "@lmssee/tools": "0.0.12"
+            "@lmssee/tools": initData.dependencies['@lmssee/tools']
         },
         "devDependencies": {
             "sass": "^1.75.0"
@@ -138,8 +151,9 @@ function createPackage(projectName: string) {
     });
 }
 
-function createIndex(projectName: string) {
-    writeFileSync(`${projectName}/${projectName}/index.ts`, `import * as components from './src/index';
+/** 新增 index 文件 */
+function createIndex() {
+    writeFileSync(`${library}/index.ts`, `import * as components from './src/index';
 export * from './src/index';
 import type { App } from 'vue';
 
@@ -160,8 +174,10 @@ export default {
     install
 }`)
 }
-function createBuildSh(projectName: string) {
-    writeFileSync(`${projectName}/${projectName}/tools/build.sh`, ` #!/bin/bash
+
+/** 新建构建工具 */
+function createBuildSh() {
+    writeFileSync(`${library}/tools/build.sh`, ` #!/bin/bash
 
 # 替换 rollup 打包后文本
 fn_search_files() {
