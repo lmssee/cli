@@ -7,10 +7,14 @@
   "module": "out/index.mjs",
   "typings": "types/index.d.ts",
   "scripts": {
+    "test": "$a = 1; $b = 2 ; if ($a -lt  $b)  { echo 2 } else { echo 2 }",
     "dev": "npx  lmhot",
     "build": "npm run clear && rollup --config  rollup.config.js    && tsc -p  tsconfig.types.json",
+    "buildW": "  npm run clearW && rollup --config  rollup.config.js    && tsc -p  tsconfig.types.json",
     "clear": "rm -rf  out  types",
+    "clearW": "rd /q /s  out  types",
     "clean": "npm run  upDe && rm -rf out  types node_modules  package-lock.json && npm install  && npm run build",
+    "cleanW": "npm run  upDe && rd /q /s  out  types node_modules  package-lock.json && npm install  && npm run build",
     "up": "npm run update",
     "update": "npm run  clean  &&  npm version  patch && npm publish",
     "upDe": "npm install @lmssee/tools@latest  @lmssee/node-tools@latest lmcmd@latest  && npm  update --save"
