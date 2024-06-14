@@ -1,25 +1,25 @@
-import { writeJsonFile } from "@lmssee/node-tools";
-import { writeFileSync } from "node:fs"
-
+import { writeJsonFile } from 'ismi-node-tools';
+import { writeFileSync } from 'node:fs';
 
 export default (projectName: string) => {
-
-    createTsconfig(projectName);
-    // 生成 read me 
-    writeFileSync(`${projectName}/ReadMe.md`, `# ${projectName}`);
-    /// 添加热更新
-    createLmconfig(projectName);
-    // 添加 License 文件
-    createLicense(projectName);
-    // 添加更新日志
-    createChangeLog(projectName);
-    // 添加 git ignore 
-    createGitIgnore(projectName);
-}
+  createTsconfig(projectName);
+  // 生成 read me
+  writeFileSync(`${projectName}/README.md`, `# ${projectName}`);
+  /// 添加热更新
+  createMiconfig(projectName);
+  // 添加 License 文件
+  createLicense(projectName);
+  // 添加更新日志
+  createChangeLog(projectName);
+  // 添加 git ignore
+  createGitIgnore(projectName);
+};
 
 /// 添加热更新
-function createLmconfig(projectName: string) {
-    writeFileSync(`${projectName}/lmconfig.js`, `
+function createMiconfig(projectName: string) {
+  writeFileSync(
+    `${projectName}/miconfig.js`,
+    `
 /**  请勿在函数体外添加非注释内容  */
 // 配置项 https://github.com/lmssee/lmhot/blob/main/%E8%87%AA%E8%BF%B0%E6%96%87%E4%BB%B6.md#配置说明
 () => ({
@@ -44,12 +44,15 @@ function createLmconfig(projectName: string) {
         },
     },
 });
-`);
+`,
+  );
 }
 
 /** 生成 license 文件 */
 function createLicense(projectName: string) {
-    writeFileSync(`${projectName}/LICENSE.md`, `Copyright (c) <2024> <${projectName}>
+  writeFileSync(
+    `${projectName}/LICENSE.md`,
+    `Copyright (c) <2024> <${projectName}>
     Permission to use, copy, modify, and/or distribute this software for any  
     purpose with or without fee is hereby granted, provided that the above  
     copyright notice and this permission notice appear in all copies.
@@ -61,65 +64,68 @@ function createLicense(projectName: string) {
     WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN  
     ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF  
     OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-    `);
+    `,
+  );
 }
 
 /** 生成 ts config  文件 */
 function createTsconfig(projectName: string) {
-    const fileData = {
-        "compilerOptions": {
-            "baseUrl": ".",
-            "jsx": "preserve",
-            "strict": true,
-            "target": "ESNext",
-            "module": "ESNext",
-            "skipLibCheck": true,
-            "esModuleInterop": true,
-            "moduleResolution": "Node",
-            "lib": ["ESNext", "DOM"],
-            "sourceMap": false
-        },
-        "include": [
-            `library/index.ts`,
-            "./**/**/src/**/*.ts",
-            "**.d.ts",
-            "./**/**/tools/**/*.ts",
-            // `${projectName}/shims-vue.d.ts`
-        ],
-        "exclude": ["node_modules"]
-    }
-    writeJsonFile(`${projectName}/tsconfig.json`, fileData);
+  const fileData = {
+    compilerOptions: {
+      baseUrl: '.',
+      jsx: 'preserve',
+      strict: true,
+      target: 'ESNext',
+      module: 'ESNext',
+      skipLibCheck: true,
+      esModuleInterop: true,
+      moduleResolution: 'Node',
+      lib: ['ESNext', 'DOM'],
+      sourceMap: false,
+    },
+    include: [
+      `library/index.ts`,
+      './**/**/src/**/*.ts',
+      '**.d.ts',
+      './**/**/tools/**/*.ts',
+      // `${projectName}/shims-vue.d.ts`
+    ],
+    exclude: ['node_modules'],
+  };
+  writeJsonFile(`${projectName}/tsconfig.json`, fileData);
 }
-
 
 /*** 生成日志记录文件  */
 function createChangeLog(projectName: string) {
-    const time = new Date();
-    const day = time.getDate(),
-        month = time.getMonth() + 1,
-        year = time.getFullYear();
-    writeFileSync(`${projectName}/CHANGELOG.md`, `# ${projectName} 
+  const time = new Date();
+  const day = time.getDate(),
+    month = time.getMonth() + 1,
+    year = time.getFullYear();
+  writeFileSync(
+    `${projectName}/CHANGELOG.md`,
+    `# ${projectName} 
 
-## 0.0.1 (${month} 月 ${day} 日 ${year} 年)
+## 0.0.0 (${month} 月 ${day} 日 ${year} 年)
 
 - init this project
-`);
+`,
+  );
 }
 
 /** 生成 git ignore 文件 */
 function createGitIgnore(projectName: string) {
-    writeFileSync(`${projectName}/.gitignore`, `
+  writeFileSync(
+    `${projectName}/.gitignore`,
+    `# dependencies
 node_modules
 
-out
-types
-
-dist
-list
-lib
-
-package-lock.json
+# build file
+exportMjs
+exportCjs
+exportTypes
+# mac 
 .DS_Store
 
-`)
+`,
+  );
 }

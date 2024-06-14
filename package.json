@@ -1,43 +1,39 @@
 {
-  "name": "lmssee",
-  "version": "0.0.14",
+  "name": "iccc",
+  "version": "0.0.0",
   "description": "a simple  cli for do something",
   "type": "module",
-  "main": "out/index.cjs",
-  "module": "out/index.mjs",
-  "typings": "types/index.d.ts",
+  "main": "exportCjs/index.cjs",
+  "module": "exportMjs/index.mjs",
+  "typings": "exportTypes/index.d.ts",
   "scripts": {
-    "test": "$a = 1; $b = 2 ; if ($a -lt  $b)  { echo 2 } else { echo 2 }",
-    "dev": "npx  lmhot",
-    "build": "npm run clear && rollup --config  rollup.config.js    && tsc -p  tsconfig.types.json",
-    "buildW": "  npm run clearW && rollup --config  rollup.config.js    && tsc -p  tsconfig.types.json",
-    "clear": "rm -rf  out  types",
-    "clearW": "rd /q /s  out  types",
-    "clean": "npm run  upDe && rm -rf out  types node_modules  package-lock.json && npm install  && npm run build",
-    "cleanW": "npm run  upDe && rd /q /s  out  types node_modules  package-lock.json && npm install  && npm run build",
-    "up": "npm run update",
-    "update": "npm run  clean  &&  npm version  patch && npm publish",
-    "upDe": "npm install @lmssee/tools@latest  @lmssee/node-tools@latest lmcmd@latest  && npm  update --save"
+    "dev": "npx  ihot",
+    "b": "rollup --config rollup.config.js && tsc -p tsconfig.types.json",
+    "build": "npx ixxx rm exportMjs exportTypes run b",
+    "prettier": "npx prettier . --write",
+    "test": "",
+    "up": "npx ixxx up -n"
   },
   "files": [
-    "out",
-    "types",
-    "bin",
+    "exportBin",
+    "exportCjs",
+    "exportMjs",
+    "exportTypes",
     "public"
   ],
   "author": "lmssee <lmssee@outlook.com>  (https://lmssee.com)",
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lmssee/cli.git"
+    "url": "git+https://github.com/lmssee/iccc.git"
   },
   "keywords": [
     "lmssee",
     "lmssee-tools"
   ],
-  "homepage": "https://lmssee.github.io/cli",
+  "homepage": "https://lmssee.github.io/iccc",
   "bugs": {
-    "url": "https://github.com/lmssee/cli/issues",
+    "url": "https://github.com/lmssee/iccc/issues",
     "email": "lmssee@outlook.com"
   },
   "publishConfig": {
@@ -50,19 +46,19 @@
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^11.1.6",
-    "@types/node": "^20.12.12",
+    "@types/node": "^20.14.2",
+    "prettier": "^3.3.2",
     "rollup-plugin-cleanup": "^3.2.1",
     "rollup-plugin-copy": "^3.5.0",
-    "tslib": "^2.6.2",
+    "tslib": "^2.6.3",
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "@lmssee/node-tools": "^0.0.11",
-    "@lmssee/tools": "^0.0.14",
-    "lmcmd": "^0.0.25"
+    "ismi-command": "^0.0.7",
+    "ismi-js-tools": "^0.0.2",
+    "ismi-node-tools": "^0.0.6"
   },
   "bin": {
-    "lm": "./bin/lmssee.js",
-    "lmssee": "./bin/lmssee.js"
+    "iccc": "./exportBin/index.js"
   }
 }

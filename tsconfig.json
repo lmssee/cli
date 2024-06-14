@@ -8,5 +8,5 @@
     "src/**/**/**/*.ts",
     "src/**/**/**/**/*.ts"
   ],
-  "exclude": ["node_modules", "./types", "./out"]
+  "exclude": ["node_modules", "./exportTypes", "./exportMjs"]
 }

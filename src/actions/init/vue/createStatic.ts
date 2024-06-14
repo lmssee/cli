@@ -1,35 +1,35 @@
-import { writeJsonFile } from "@lmssee/node-tools";
-import { copyFileSync, writeFileSync } from "node:fs"
-import initData from "../initData";
+import { copyFileSync, writeFileSync } from 'node:fs';
+import initData from '../initData';
 // 项目名称
 let name: string;
 // 静态测试文件名称
 let staticDir: string;
 
 export default () => {
-    name = initData.name;
-    staticDir = `${name}/static`;
+  name = initData.name;
+  staticDir = `${name}/static`;
 
-    createTsconfig();
+  createTsconfig();
 
-    createViteConfig();
+  createViteConfig();
 
-    createPackage();
+  createPackage();
 
-    createIndexHtml();
+  createIndexHtml();
 
-    /** 将日志记录放在这里 */
-    copyFileSync(`${name}/CHANGELOG.md`, `${staticDir}/CHANGELOG.md`);
+  /** 将日志记录放在这里 */
+  copyFileSync(`${name}/CHANGELOG.md`, `${staticDir}/CHANGELOG.md`);
 
-    createStaticMainTs();
+  createStaticMainTs();
 
-    createAppTsx();
-}
-
+  createAppTsx();
+};
 
 /**  生成 vite config 文件  */
 function createViteConfig() {
-    writeFileSync(`${staticDir}/vite.config.ts`, `import { defineConfig } from "vite";
+  writeFileSync(
+    `${staticDir}/vite.config.ts`,
+    `import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import vueJsx from '@vitejs/plugin-vue-jsx';
 export default defineConfig({
@@ -37,12 +37,15 @@ export default defineConfig({
         vue(),
         vueJsx()
     ],
-});`)
+});`,
+  );
 }
 
 /**  生成一个 package.json 文件 */
 function createPackage() {
-    writeFileSync(`${staticDir}/package.json`, `{
+  writeFileSync(
+    `${staticDir}/package.json`,
+    `{
 "name": "static",
 "version": "0.0.1",
 "main": "index.js",
@@ -52,15 +55,17 @@ function createPackage() {
 },
 "license": "ISC",
 "dependencies": {
-    "@lmssee/tools": "0.0.12",
     "${name}":  "../library"
     }
-}`)
+}`,
+  );
 }
 
 /** 生成根 html */
 function createIndexHtml() {
-    writeFileSync(`${staticDir}/index.html`, `<!DOCTYPE html>
+  writeFileSync(
+    `${staticDir}/index.html`,
+    `<!DOCTYPE html>
   <html lang="zh-cn">
     <head>
       <meta charset="UTF-8" />
@@ -73,12 +78,15 @@ function createIndexHtml() {
       <script src="main.ts" type="module"></script>
     </body>
   </html>
-  `);
+  `,
+  );
 }
 
 /** 生成 ts config 文件 */
 function createTsconfig() {
-    writeFileSync(`${staticDir}/tsconfig.json`, `{
+  writeFileSync(
+    `${staticDir}/tsconfig.json`,
+    `{
 "compilerOptions": {
     "baseUrl": ".",
     "jsx": "preserve",
@@ -100,12 +108,15 @@ function createTsconfig() {
     "src/**/**/*.tsx"
 ],
 "exclude": ["node_modules", "types", "out"]
-}`)
+}`,
+  );
 }
 
 /** 生成一个 app.tsx 入口文件 */
 function createAppTsx() {
-    writeFileSync(`${staticDir}/app.tsx`, `import {defineComponent} from 'vue';
+  writeFileSync(
+    `${staticDir}/app.tsx`,
+    `import {defineComponent} from 'vue';
 import { TestButton } from '${name}';
 
 export default defineComponent({
@@ -115,14 +126,17 @@ export default defineComponent({
             测试按钮
         </TestButton>
     }
-})`);
+})`,
+  );
 }
 /** 生成 vue 主逻辑文件 */
 function createStaticMainTs() {
-    writeFileSync(`${staticDir}/main.ts`, `import { createApp } from "vue";
+  writeFileSync(
+    `${staticDir}/main.ts`,
+    `import { createApp } from "vue";
 import App from "./app";
 const app = createApp(App);
 
-app.mount("#app");`)
+app.mount("#app");`,
+  );
 }
-
